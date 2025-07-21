@@ -1,0 +1,38 @@
+{
+  "login_logo": "تسجيل دخول",
+  "login_email": "البريد الالكتروني",
+  "login_password": "كلمة السر",
+  "login_button": "تسجيل",
+
+  "problem_logo": "تقديم شكوى",
+  "problem_logo_home": "تقديم الان",
+  "problem_type": "الصنف",
+  "problem_name": "الاسم",
+  "problem_mobile": "رقم الهاتف",
+  "problem_subject": "العنوان",
+  "problem_description": "الوصف",
+  "problem_description_home": "الوصف",
+  "problem_button": "ارسال",
+
+  "nav_title": "DNA",
+  "nav_home": "الرئيسية",
+  "nav_news": "الاخبار",
+  "nav_problem": "تقديم شكوى",
+  "nav_problem2": "الشكاوي",
+  "nav_notification": "الاشعار",
+  "nav_logout": "تسجيل خروج",
+
+  "footer_title": "وكالة اخبار ديالى",
+
+  "form_false": "اغلاق",
+  "form_true": "تاكيد",
+  "form_notification": "ارسال اشعار",
+  "form_image": "اضافة صورة",
+
+  "admin_news_st": "الاعدادات",
+  "admin_news_created_at": "التاريخ",
+  "admin_news_content": "المحتوى",
+  "admin_news_title": "العنوان",
+  "admin_news_btn_add": "اضافة",
+  "admin_news_no": "التسلسل"
+}

@@ -1,0 +1,37 @@
+{
+  "login_logo": "LOG IN",
+  "login_phoneNumber": "Phone Number",
+  "login_phoneNumberPlaceholder": "Enter your Phone Number",
+  "login_password": "password",
+  "login_passwordPlaceholder": "Enter your password",
+  "login_radio": "save login",
+  "login_button": "submit",
+
+  "signup_logo": "SIGN UP",
+  "signup_name": "Name",
+  "signup_email": "Email",
+  "signup_mobile": "Phone Number",
+  "signup_password": "Password",
+  "signup_passwordConfirmation": "Password Confirmation",
+  "signup_location": "Location",
+  "signup_namePH": "Name",
+  "signup_emailPH": "Email",
+  "signup_mobilePH": "Phone Number",
+  "signup_passwordPH": "Password",
+  "signup_passwordConfirmationPH": "Password Confirmation",
+  "signup_locationPH1": "Location 1",
+  "signup_locationPH2": "Location 2",
+  "signup_button": "submit",
+  "signup_radio": "save signup",
+
+  "productView_color": "color",
+  "productView_size": "size",
+  "productView_button": "Add to card",
+
+  "shopCard_all": "all",
+  "shopCard_coupon": "coupon",
+  "shopCard_button": "submit",
+  "shopCard_number": "quantity",
+  "shopCard_price": "price",
+  "shopCard_delivery": "delivery"
+}
