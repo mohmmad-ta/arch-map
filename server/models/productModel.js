@@ -6,16 +6,15 @@ const productSchema = new mongoose.Schema({
             required: [true, 'A product must have a name'],
             trim: true,
         },
-        description: {
-            type: String,
-            require: true,
-            default: '',
-        },
         imageCover: {
             type: String,
             require: [true, 'A product must have a cover image']
         },
-        images: [String],
+        category: {
+            type: String,
+            enum: [ 'completed', 'planned', 'unfinished'],
+            default: 'completed'
+        },
         pins: [
             {
                 x: {
@@ -25,13 +24,14 @@ const productSchema = new mongoose.Schema({
                 y: {
                     type: String,
                     required: true
-                }
+                },
+                images: [String],
+                name: String,
             }
         ],
         createAt:{
             type: Date,
             default: Date.now(),
-            select: false
         },
     },
     {

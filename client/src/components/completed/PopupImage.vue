@@ -1,28 +1,32 @@
 <template>
   <div>
     <!-- Popup Overlay -->
-    <div v-if="store.slidOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div v-if="store.showPopup" class="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-50 flex items-center justify-center z-50">
       <!-- Draggable/Resizable Image Box -->
       <div
-          class="absolute bg-white border shadow-lg cursor-move"
+          class="absolute bg-white rounded-lg overflow-hidden border shadow-lg cursor-move"
           :style="popupStyle"
           @mousedown="startDrag"
       >
         <!-- Resizable Corner -->
         <div
-            class="absolute bottom-0 right-0 w-4 h-4 bg-gray-500 cursor-se-resize z-50"
+            class="absolute bottom-0 right-0 py-1 px-2 rounded-tl-lg text-primary-950 backdrop-blur-sm bg-black bg-opacity-20 cursor-se-resize z-50"
             @mousedown.stop="startResize"
-        ></div>
+        ><i class="fa-solid fa-up-right-and-down-left-from-center text-sm"></i></div>
+        <div
+            class="absolute top-0 right-0 backdrop-blur-sm bg-black bg-opacity-20 rounded-tr-lg text-secondary-950 hover:text-red-500 duration-150 rounded-bl-lg w-8 h-8 flex justify-center items-center cursor-se-resize z-50"
+            @click="store.showPopup = false"
+        ><i class="fa-solid fa-xmark text-lg"></i></div>
 
         <!-- Image -->
-        <img :src="image" class="w-full h-full object-contain" />
+        <img crossorigin="anonymous" :src="image" class="w-full rounded-lg h-full object-contain" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, defineProps, onMounted } from 'vue'
+import {ref, reactive, defineProps, onMounted, computed} from 'vue'
 import { useCompStore } from '@/stores/StoreCompleted.js'
 const store = useCompStore();
 const prop =defineProps({

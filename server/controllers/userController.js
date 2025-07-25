@@ -14,8 +14,13 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.getMe = async (req, res, next) => {
     req.params.id = req.user.id;
-    await User.findById(req.params.id);
-    next();
+    const user=await User.findById(req.params.id);
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user: user
+        }
+    });
 };
 
 exports.updateMe = catchAsync(async (req, res, next) => {

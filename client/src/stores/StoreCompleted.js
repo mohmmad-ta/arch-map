@@ -2,10 +2,53 @@ import {ref, computed, onMounted} from 'vue'
 import { defineStore } from 'pinia'
 import axios from "axios";
 
-export const useDataStore = defineStore('data', () => {
-  const allNews = ref([])
+export const useCompStore = defineStore('compData', {
+  state: () => ({
+    id: '',
+    pins: [],
+    name: "",
+    pinsData: [],
+    category: "",
+    imageCover: null,
+    imageCoverUp: '',
+    slidOpen: false,
+    slidData: [],
+    showPopup: false,
+  }),
 
+  actions: {
+    addPin(x, y) {
+      this.pins.push({ x, y, images: [], name: '' });
+      this.pinsData.push({ x, y, images: [], name: '' });
+    },
 
+    removePin(index) {
+      this.pins.splice(index, 1);
+      this.pinsData.splice(index, 1);
+    },
 
-  return { allNews }
-})
+    addImageToPin(index, data) {
+      if (this.pins[index]) {
+        this.pins[index].images.push(data);
+      }
+    },
+    addImageToPinData(index, data) {
+      if (this.pinsData[index]) {
+        this.pinsData[index].images.push(data);
+      }
+    },
+    removeImageToPin(index) {
+      this.pins[index].images.splice(index, 1);
+      this.pinsData[index].images.splice(index, 1);
+    },
+    removeData() {
+      this.id= ''
+      this.pins= []
+      this.name= ""
+      this.pinsData= []
+      this.category= ""
+      this.imageCover= null
+      this.imageCoverUp= ''
+    },
+  }
+});

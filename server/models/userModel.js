@@ -17,13 +17,13 @@ const userSchema = new mongoose.Schema({
         },
         role: {
             type: String,
-            enum: ['user', 'admin'],
-            default: 'user'
+            enum: [ 'admin'],
+            default: 'admin'
         },
         password: {
             type: String,
             required: [true, 'Please provide a password'],
-            minlength: 8,
+            minlength: 6,
             select: false
         },
         passwordConfirm: {

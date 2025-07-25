@@ -18,34 +18,27 @@ const upload = multer({
     storage: multerStorage,
     fileFilter: multerFilter
 });
-exports.uploadProductPhoto = upload.fields([
-    {name: 'imageCover', maxCount: 1},
-    {name: 'images', maxCount: 20},
-])
+exports.uploadProductPhoto = upload.any()
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-    if (!req.files.imageCover || !req.files.images) return next();
-    // 1) Cover image
-    req.body.imageCover = `${req.protocol}://${req.get('host')}/public/images/products/${Date.now()}-${req.files.imageCover.fieldname}.jpeg`;
-    const nameImageCover = `${Date.now()}-${req.params.id}.jpeg`;
-    console.log(req.body.imageCover)
-    await sharp(req.files.imageCover[0].buffer)
-        .toFormat('jpeg')
-        .jpeg({ quality: 100 })
-        .toFile(`public/images/products/${nameImageCover}`);
+    req.body.pins = JSON.parse(req.body.pins);
 
-    // 2) Images
-    req.body.images = [];
+    req.body.pins.map((file, index)=>{
+        req.body.pins[index].images = [];
+    })
     await Promise.all(
-        req.files.images.map(async (file, i) => {
-            const nameImages = `${Date.now()}-${req.files.images[i].fieldname}.jpeg`;
-            const filename = `${req.protocol}://${req.get('host')}/public/images/products/${Date.now()}-${req.files.images[i].fieldname}.jpeg`;
 
+        req.files.map(async (file, index) => {
+            const nameImages = `${Date.now()+index}-${file.fieldname}.jpeg`;
+            const filename = `${req.protocol}://${req.get('host')}/public/images/products/${Date.now()+index}-${file.fieldname}.jpeg`;
+            if (file.fieldname === "imageCover"){
+                req.body.imageCover = filename;
+            }else {
+                req.body.pins[file.fieldname*1].images.push(filename)
+            }
             await sharp(file.buffer)
                 .toFormat('jpeg')
                 .jpeg({ quality: 100 })
                 .toFile(`public/images/products/${nameImages}`);
-
-            req.body.images.push(filename);
         })
     );
 
