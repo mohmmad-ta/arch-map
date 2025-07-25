@@ -35,9 +35,9 @@ const getOneMap = async (id) => {
     </div>
     <div @click="getOneMap(data.id)" v-for="data in store.slidData" class="w-full cursor-pointer gap-2 flex overflow-hidden justify-center p-2.5 border border-secondary-100 hover:border-secondary-200 hover:scale-105 duration-150 rounded-md bg-secondary-50 mb-1.5">
       <h1 class="text-secondary-950 text-wrap text-right w-full text-sm">{{ data.name.length >= 100 ? data.name.slice(0, 100) + '...' : data.name }}</h1>
-      <div v-if="data.category === 'completed'" class="size-4 p-1 bg-red-500 mt-0.5 rounded-full"></div>
-      <div v-else-if="data.category === 'planned'" class="size-4 p-1 bg-green-600 mt-0.5 rounded-full"></div>
-      <div v-else-if="data.category === 'unfinished'" class="size-4 p-1 bg-orange-400 mt-0.5 rounded-full"></div>
+      <div v-if="data.category === 'completed'" class="size-4 p-1 bg-co1-950 mt-0.5 rounded-full"></div>
+      <div v-else-if="data.category === 'planned'" class="size-4 p-1 bg-co2-950 mt-0.5 rounded-full"></div>
+      <div v-else-if="data.category === 'unfinished'" class="size-4 p-1 bg-co3-950 mt-0.5 rounded-full"></div>
     </div>
     <div class="h-fit w-full px-10 relative md:absolute bottom-8">
       <button class="text-right duration-150 w-full p-2 mt-2 text-secondary-950 bg-secondary-100 text-sm hover:bg-red-100 hover:text-red-700 rounded" type="button">{{$t('dash_logout')}}<i class="mx-0.5  fa-solid fa-arrow-right-from-bracket"></i></button>
