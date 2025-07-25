@@ -121,13 +121,13 @@ onMounted(async () => {
   <main>
     <header class="w-full z-50 h-16 fixed bg-white">
       <nav class="container w-full h-full flex items-center justify-between">
-        <i @click="router.back()"  class="fa-solid fa-arrow-left text-blue-400 text-3xl cursor-pointer"></i>
+        <i @click="router.back()"  class="fa-solid fa-arrow-left text-main-50 text-3xl cursor-pointer"></i>
         <div v-if="store.isLogin">
           <Transition v-if="store.slidOpen">
-            <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-blue-400 text-3xl cursor-pointer"></i>
+            <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-main-50 text-3xl cursor-pointer"></i>
           </Transition>
           <Transition v-else>
-            <i @click="store.slidOpen = true" class="fa-solid fa-bars text-blue-400 text-3xl cursor-pointer"></i>
+            <i @click="store.slidOpen = true" class="fa-solid fa-bars text-main-50 text-3xl cursor-pointer"></i>
           </Transition>
         </div>
       </nav>
@@ -146,7 +146,7 @@ onMounted(async () => {
               class="absolute p-2 bg-primary-100 backdrop-blur-sm rounded-full"
               :style="{ left: pin.x -15 + 'px', top: pin.y -15 + 'px' }"
           >
-            <i class="fa-solid fa-thumbtack text-red-600 text-2xl cursor-pointer"></i>
+            <i class="fa-solid fa-thumbtack text-main-50 text-2xl cursor-pointer"></i>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ onMounted(async () => {
                 <div>
                   <select
                       v-model="store.category"
-                      class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-main-50 focus:border-main-50"
                   >
                     <option disabled value="">{{ $t('dash_select') }}</option>
                     <option v-for="option in options" :key="option.value" :value="option.value">
@@ -169,22 +169,22 @@ onMounted(async () => {
                     </option>
                   </select>
                 </div>
-                <h2 class="font-bold text-blue-500"> : {{ $t('dash_select_title') }}</h2>
+                <h2 class="font-bold text-main-50"> : {{ $t('dash_select_title') }}</h2>
               </div>
               <div class="flex gap-2 items-center justify-end">
                 <input type="text" v-model="store.name" placeholder="Name Rome" class="bg-secondary-50 border w-60 lg:w-96 border-secondary-200 text-sm text-right px-2 py-1 rounded-md">
-                <h2 class="font-bold text-blue-500"> : {{ $t('dash_map_title') }}</h2>
+                <h2 class="font-bold text-main-50"> : {{ $t('dash_map_title') }}</h2>
               </div>
             </div>
             <div v-if="store.pins.length !== 0" class="flex gap-4 items-center justify-end mb-2" v-for="(pin, index) in store.pins">
               <ButtonUpload :index="index" />
               <input type="text" v-model="store.pinsData[index].name" placeholder="Name Rome" class="bg-secondary-50 border border-secondary-200 text-sm text-right px-2 py-1 rounded-md">
-              <div class="size-4 bg-blue-500 rounded-full"></div>
+              <div class="size-4 bg-main-50 rounded-full"></div>
               <i @click="store.removePin(index)" class="fa-solid cursor-pointer fa-xmark text-xl text-secondary-950 hover:text-red-400 duration-200"></i>
             </div>
             <div v-else class="flex gap-4 items-center justify-end mb-2">
               <p class="text-secondary-950 text-sm">{{ $t('dash_alert_no_map') }}</p>
-              <div class="size-4 bg-blue-500 rounded-full"></div>
+              <div class="size-4 bg-main-50 rounded-full"></div>
             </div>
           </div>
           <!--    start input map     -->
@@ -194,7 +194,7 @@ onMounted(async () => {
                 @dragover.prevent
                 @drop.prevent="handleDrop"
                 @click="triggerFileInput"
-                class="w-64 h-40 border-2 p-2 border-dashed text-secondary-950 duration-150 hover:text-blue-500 hover:border-blue-500 border-gray-400 flex items-center justify-center rounded-md cursor-pointer relative"
+                class="w-64 h-40 border-2 p-2 border-dashed text-secondary-950 duration-150 hover:text-main-50 hover:border-main-50 border-gray-400 flex items-center justify-center rounded-md cursor-pointer relative"
             >
               <p v-if="!store.imageCoverUp" class="w-full text-center ">{{ $t('dash_image_drop') }}</p>
               <img v-else crossorigin="anonymous" :src="store.imageCoverUp" alt="Preview" class="max-h-full rounded-lg max-w-full object-contain" />
@@ -216,7 +216,7 @@ onMounted(async () => {
             {{ $t('dash_delete') }}
             <i class="fa-solid fa-trash-can"></i>
           </button>
-          <button v-else @click="submitNewMap" class="bg-blue-500 hover:bg-blue-600 min-w-40 duration-150 text-white px-4 py-2 rounded-md" type="button">{{ $t('dash_Save') }}</button>
+          <button v-else @click="submitNewMap" class="bg-main-50 hover:bg-blue-500 min-w-40 duration-150 text-white px-4 py-2 rounded-md" type="button">{{ $t('dash_Save') }}</button>
         </div>
       </div>
 
