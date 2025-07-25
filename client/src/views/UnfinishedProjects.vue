@@ -68,13 +68,13 @@ const openPop = (img)=>{
   <main>
     <header class="w-full z-50 h-16 fixed bg-white">
       <nav class="container w-full h-full flex items-center justify-between">
-        <i @click="router.back()"  class="fa-solid fa-arrow-left text-blue-400 text-3xl cursor-pointer"></i>
+        <i @click="router.back()"  class="fa-solid fa-arrow-left text-co3-950 text-3xl cursor-pointer"></i>
         <h2 class="font-bold text-primary-950">{{ store.name.length >= 100 ? store.name.slice(0, 100) + '...' : store.name }}</h2>
         <Transition v-if="store.slidOpen">
-          <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-blue-400 text-3xl cursor-pointer"></i>
+          <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-co3-950 text-3xl cursor-pointer"></i>
         </Transition>
         <Transition v-else>
-          <i @click="store.slidOpen = true" class="fa-solid fa-bars text-blue-400 text-3xl cursor-pointer"></i>
+          <i @click="store.slidOpen = true" class="fa-solid fa-bars text-co3-950 text-3xl cursor-pointer"></i>
         </Transition>
       </nav>
     </header>
@@ -95,7 +95,7 @@ const openPop = (img)=>{
             <div class="relative w-20 h-20 mx-auto">
               <!-- Center Button -->
               <button @click="openButton === index ? openButton=-1 : openButton=index" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-primary-100 backdrop-blur-sm text-white p-2 rounded-full">
-                <i class="fa-solid fa-thumbtack text-red-600 text-2xl cursor-pointer"></i>
+                <i class="fa-solid fa-thumbtack text-co3-950 text-2xl cursor-pointer"></i>
               </button>
 
               <!-- Dynamic Images -->
