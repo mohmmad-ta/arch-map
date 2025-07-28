@@ -71,8 +71,8 @@ const options = [
   { label: t('dash_select_completed'), value: 'completed' },
   { label: t('dash_select_planned'), value: 'planned' },
   { label: t('dash_select_unfinished'), value: 'unfinished' },
-  { label: t('about'), value: 'AboutUs' },
-  { label: t('3d_video'), value: '3dVideo' },
+  { label: t('about'), value: 'about' },
+  { label: t('3d_video'), value: '3d' },
 ]
 
 const submitNewMap = async () => {
@@ -104,8 +104,8 @@ const submitNewMap = async () => {
   }else if (previewType.value === 'video') {
     formData.append('name', store.name)
     formData.append('video', store.imageCover)
-    if (store.category === 'AboutUs') {
-      formData.append('typePage', "about")
+    if (store.category === 'about') {
+      formData.append('category', "about")
     }
 
     try {
@@ -126,20 +126,38 @@ const submitNewMap = async () => {
 
 const deleteMap = async () => {
   const token = localStorage.getItem("token")
-  if (store.id){
-    try {
-      const response = await axios.delete(`/map/${store.id}`,{
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      })
-      store.removeOnePinIn()
+  if (store.category === 'about'|| store.category === '3d') {
+    if (store.id){
+      try {
+        const response = await axios.delete(`/video/${store.id}`,{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+        store.removeOnePinIn()
+        store.removeData()
+      } catch (error) {
+        console.error('Upload failed:', error)
+      }
+    }else {
       store.removeData()
-    } catch (error) {
-      console.error('Upload failed:', error)
     }
   }else {
-    store.removeData()
+    if (store.id){
+      try {
+        const response = await axios.delete(`/map/${store.id}`,{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+        store.removeOnePinIn()
+        store.removeData()
+      } catch (error) {
+        console.error('Upload failed:', error)
+      }
+    }else {
+      store.removeData()
+    }
   }
 
 }
@@ -150,7 +168,9 @@ onMounted(async () => {
       store.isLogin = true
     })
     const response = await axios.get('/map?fields=name,createAt,category&sort=-createAt',)
-    store.slidData = response.data.data
+    const res = await axios.get('/video?fields=name,createAt,category&sort=-createAt',)
+    store.slidData = [...response.data.data, ...res.data.data];
+
   } catch (error) {
     console.error('Upload failed:', error)
   }
@@ -179,7 +199,7 @@ onMounted(async () => {
     <div class="w-full h-16"></div>
 
     <Transition>
-      <div v-if="store.imageCoverUp && previewType === 'image'" class="overflow-scroll mt-2 flex justify-center">
+      <div v-if="store.imageCoverUp && previewType !== 'video'" class="overflow-scroll mt-2 flex justify-center">
         <div class="relative mx-24 w-full h-[90%] overflow-hidden inline-block" >
           <img ref="imageRef" class="w-full h-full rounded-md" @click="addPin" crossorigin="anonymous" :src="store.imageCoverUp" alt="Map" />
 
@@ -251,15 +271,16 @@ onMounted(async () => {
                   crossorigin="anonymous"
                   :src="store.imageCoverUp"
                   alt="Preview"
-                  class="max-h-full rounded-lg max-w-full object-contain"
+                  class="w-full h-[90%] rounded-lg object-contain"
               />
 
               <!-- Show video preview -->
               <video
+                  crossorigin="anonymous"
                   v-else-if="previewType === 'video'"
                   :src="store.imageCoverUp"
                   controls
-                  class="max-h-full rounded-lg max-w-full object-contain"
+                  class="w-full h-[90%] rounded-lg object-contain"
               ></video>
             </div>
 

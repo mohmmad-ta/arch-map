@@ -27,7 +27,7 @@ function getImagePosition(index, total) {
             <i class="fa-brands fa-instagram text-xl"></i>
           </a>
         </div>
-        <img class="w-40" src="./../assets/logo.png" alt="">
+        <img class="w-32 lg:w-40" src="./../assets/logo.png" alt="">
       </nav>
     </header>
     <div class="container min-h-screen w-full flex justify-center items-center">
@@ -48,7 +48,7 @@ function getImagePosition(index, total) {
           <i class="fa-regular fa-building loader2 text-3xl text-white"></i>
         </RouterLink>
         <RouterLink :style="getImagePosition(5, 6)" to="/Page3DVideo" class="size-28 flex justify-center items-center rounded-full absolute bottom-0 right-0 bg-pink-600">
-          <i class="fa-solid fa-map-location-dot loader2 text-3xl text-white"></i>
+          <i class="fa-solid fa-cubes loader2 text-3xl text-white"></i>
         </RouterLink>
 
       </div>

@@ -10,7 +10,7 @@ const router = useRouter();
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/video?typePage=3d&fields=name,createAt&sort=-createAt',)
+    const response = await axios.get('/video?category=3d&fields=name,createAt&sort=-createAt',)
     store.slidData = response.data.data
     getOneMap(store.slidData[0].id)
 
@@ -43,13 +43,13 @@ const getOneMap = async (id) => {
   <main>
     <header class="w-full z-50 h-16 fixed bg-white">
       <nav class="container w-full h-full flex items-center justify-between">
-        <i @click="router.back()"  class="fa-solid fa-arrow-left text-co3-950 text-3xl cursor-pointer"></i>
+        <i @click="router.back()"  class="fa-solid fa-arrow-left text-pink-600 text-3xl cursor-pointer"></i>
         <h2 class="font-bold text-primary-950">{{ store.name.length >= 100 ? store.name.slice(0, 100) + '...' : store.name }}</h2>
         <Transition v-if="store.slidOpen">
-          <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-co3-950 text-3xl cursor-pointer"></i>
+          <i @click="store.slidOpen = false" class="fa-solid fa-bars-staggered text-pink-600 text-3xl cursor-pointer"></i>
         </Transition>
         <Transition v-else>
-          <i @click="store.slidOpen = true" class="fa-solid fa-bars text-co3-950 text-3xl cursor-pointer"></i>
+          <i @click="store.slidOpen = true" class="fa-solid fa-bars text-pink-600 text-3xl cursor-pointer"></i>
         </Transition>
       </nav>
     </header>
@@ -60,9 +60,10 @@ const getOneMap = async (id) => {
       <div v-if="store.imageCoverUp" class="mt-2 flex justify-center">
         <div class="relative mx-24 w-full h-[90%] overflow-hidden inline-block" >
           <video
+              crossorigin="anonymous"
               :src="store.imageCoverUp"
               controls
-              class="w-full h-full rounded-md object-contain"
+              class="w-full h3dVideo rounded-md object-contain"
           ></video>
         </div>
       </div>
@@ -78,5 +79,7 @@ const getOneMap = async (id) => {
 </template>
 
 <style scoped>
-
+.h3dVideo{
+  height: 90vh !important;
+}
 </style>

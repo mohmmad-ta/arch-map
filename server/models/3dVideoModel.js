@@ -10,7 +10,7 @@ const videoSchema = new mongoose.Schema({
             type: String,
             require: [true, 'A product must have a cover image']
         },
-        typePage: {
+        category: {
             type: String,
             enum: [ 'about', '3d'],
             default: '3d'
