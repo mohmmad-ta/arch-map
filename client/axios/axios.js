@@ -1,5 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:7050/api/v1";
+axios.defaults.baseURL = "https://arch.khaleeafashion.com/api/v1";
 axios.defaults.headers.common["Authorization"] =
     "Bearer " + localStorage.getItem("token");
