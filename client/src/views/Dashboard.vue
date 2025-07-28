@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 const store = useDashStore();
 const router = useRouter();
 import Login from "@/components/dash/Login.vue";
+const wImage = ref(1540)
+const hImage = ref(900)
 
 import {useI18n} from "vue-i18n";
 
@@ -19,80 +21,118 @@ const imageRef = ref(null);
 const addPin = (event) => {
 
   const rect = imageRef.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
+  const x = ((event.clientX - rect.left) / rect.width) * 100;
+  const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-  const y = event.clientY - rect.top;
   store.addPin( x, y );
 
 };
-const imageUrl = ref(null);
+
+
 
 const fileInput = ref(null);
-function handleDrop(event) {
-  const file = event.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) {
-    updateImage(file);
-  } else {
-    alert('Please drop a valid image file.');
-  }
+const previewType = ref(''); // 'image' or 'video'
 
-}
-function handleFileChange(event) {
-  const file = event.target.files[0];
-  if (file && file.type.startsWith('image/')) {
-    updateImage(file);
-  } else {
-    alert('Please select a valid image file.');
-  }
-
-}
-function triggerFileInput() {
+const triggerFileInput = () => {
   fileInput.value.click();
+};
 
-}
-function updateImage(file) {
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    showPreview(file);
+  }
+};
+
+const handleDrop = (event) => {
+  const file = event.dataTransfer.files[0];
+  if (file) {
+    showPreview(file);
+  }
+};
+
+const showPreview = (file) => {
+  const url = URL.createObjectURL(file);
   store.imageCover = file
-  if (store.imageCoverUp) {
-    URL.revokeObjectURL(store.imageCoverUp);
+  if (file.type.startsWith('image/')) {
+    previewType.value = 'image';
+  } else if (file.type.startsWith('video/')) {
+    previewType.value = 'video';
+  } else {
+    previewType.value = '';
   }
 
-  store.imageCoverUp = URL.createObjectURL(file);
+  store.imageCoverUp = url;
+};
 
-}
+
+
 const options = [
   { label: t('dash_select_completed'), value: 'completed' },
   { label: t('dash_select_planned'), value: 'planned' },
   { label: t('dash_select_unfinished'), value: 'unfinished' },
+  { label: t('about'), value: 'AboutUs' },
+  { label: t('3d_video'), value: '3dVideo' },
 ]
 
 const submitNewMap = async () => {
+  const token = localStorage.getItem("token")
   const formData = new FormData()
-  formData.append('name', store.name)
-  formData.append('imageCover', store.imageCover)
-  formData.append('category', store.category)
-  formData.append('pins', JSON.stringify(store.pinsData))
-  store.pinsData.forEach((pin, index) => {
-    pin.images.forEach((imageFile) => {
-      formData.append(`${index}`, imageFile);
+  if (previewType.value === 'image') {
+    formData.append('name', store.name)
+    formData.append('imageCover', store.imageCover)
+    formData.append('category', store.category)
+    formData.append('pins', JSON.stringify(store.pinsData))
+    store.pinsData.forEach((pin, index) => {
+      pin.images.forEach((imageFile) => {
+        formData.append(`${index}`, imageFile);
+      });
     });
-  });
 
-  try {
-    const response = await axios.post('/map', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    Swal.fire(t('dash_alert_title'), t('dash_alert_disc'));
+    try {
+      const response = await axios.post('/map', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      Swal.fire(t('dash_alert_title'), t('dash_alert_disc'));
 
-  } catch (error) {
-    console.error('Upload failed:', error)
+    } catch (error) {
+      console.error('Upload failed:', error)
+    }
+  }else if (previewType.value === 'video') {
+    formData.append('name', store.name)
+    formData.append('video', store.imageCover)
+    if (store.category === 'AboutUs') {
+      formData.append('typePage', "about")
+    }
+
+    try {
+      const response = await axios.post('/video', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      Swal.fire(t('dash_alert_title'), t('dash_alert_disc'));
+
+    } catch (error) {
+      console.error('Upload failed:', error)
+    }
   }
 }
+
+
 const deleteMap = async () => {
+  const token = localStorage.getItem("token")
   if (store.id){
     try {
-      const response = await axios.delete(`/map/${store.id}`,)
+      const response = await axios.delete(`/map/${store.id}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
       store.removeOnePinIn()
       store.removeData()
     } catch (error) {
@@ -115,10 +155,13 @@ onMounted(async () => {
     console.error('Upload failed:', error)
   }
 });
+
+
+
 </script>
 
 <template>
-  <main>
+  <main ref="secret">
     <header class="w-full z-50 h-16 fixed bg-white">
       <nav class="container w-full h-full flex items-center justify-between">
         <i @click="router.back()"  class="fa-solid fa-arrow-left text-main-50 text-3xl cursor-pointer"></i>
@@ -136,15 +179,19 @@ onMounted(async () => {
     <div class="w-full h-16"></div>
 
     <Transition>
-      <div v-if="store.imageCoverUp" class="overflow-scroll mt-2 flex justify-center">
-        <div class="relative inline-block" @click="addPin">
-          <img ref="imageRef" class="w-[1540px] h-[900px] rounded-md" crossorigin="anonymous" :src="store.imageCoverUp" alt="Map" />
+      <div v-if="store.imageCoverUp && previewType === 'image'" class="overflow-scroll mt-2 flex justify-center">
+        <div class="relative mx-24 w-full h-[90%] overflow-hidden inline-block" >
+          <img ref="imageRef" class="w-full h-full rounded-md" @click="addPin" crossorigin="anonymous" :src="store.imageCoverUp" alt="Map" />
 
           <div
               v-for="(pin, index) in store.pins"
               :key="index"
               class="absolute p-2 bg-primary-100 backdrop-blur-sm rounded-full"
-              :style="{ left: pin.x -15 + 'px', top: pin.y -15 + 'px' }"
+              :style="{
+                left: pin.x + '%',
+                top: pin.y + '%',
+                transform: 'translate(-50%, -50%)',
+              }"
           >
             <i class="fa-solid fa-thumbtack text-main-50 text-2xl cursor-pointer"></i>
           </div>
@@ -196,15 +243,31 @@ onMounted(async () => {
                 @click="triggerFileInput"
                 class="w-64 h-40 border-2 p-2 border-dashed text-secondary-950 duration-150 hover:text-main-50 hover:border-main-50 border-gray-400 flex items-center justify-center rounded-md cursor-pointer relative"
             >
-              <p v-if="!store.imageCoverUp" class="w-full text-center ">{{ $t('dash_image_drop') }}</p>
-              <img v-else crossorigin="anonymous" :src="store.imageCoverUp" alt="Preview" class="max-h-full rounded-lg max-w-full object-contain" />
+              <p v-if="!store.imageCoverUp" class="w-full text-center">{{ $t('dash_image_drop') }}</p>
+
+              <!-- Show image preview -->
+              <img
+                  v-else-if="previewType === 'image'"
+                  crossorigin="anonymous"
+                  :src="store.imageCoverUp"
+                  alt="Preview"
+                  class="max-h-full rounded-lg max-w-full object-contain"
+              />
+
+              <!-- Show video preview -->
+              <video
+                  v-else-if="previewType === 'video'"
+                  :src="store.imageCoverUp"
+                  controls
+                  class="max-h-full rounded-lg max-w-full object-contain"
+              ></video>
             </div>
 
             <!-- Hidden file input -->
             <input
                 type="file"
                 ref="fileInput"
-                accept="image/*"
+                accept="image/*,video/*"
                 @change="handleFileChange"
                 class="hidden"
             />
@@ -233,5 +296,4 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
 </style>

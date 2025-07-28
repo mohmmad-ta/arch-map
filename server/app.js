@@ -11,6 +11,7 @@ require('dotenv').config();
 
 const usersRouter = require('./routes/usersRouter');
 const productRoute = require('./routes/productRoute');
+const videoRoute = require('./routes/videoRoute');
 
 const app = express();
 const api = process.env.API_URL
@@ -29,10 +30,7 @@ const limiter = rateLimit({
     standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
-app.use('/api', limiter);
 
-// Body parser, reading data from body into req.body
-app.use(express.json({ limit: '15kb' }));
 
 
 
@@ -63,6 +61,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use(`${api}/auth`, usersRouter);
 app.use(`${api}/map`, productRoute);
+app.use(`${api}/video`, videoRoute);
 
 
 module.exports = app;

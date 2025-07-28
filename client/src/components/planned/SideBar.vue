@@ -8,6 +8,7 @@ const router = useRouter();
 const store = usePlannedStore();
 const getOneMap = async (id) => {
   try {
+    store.slidOpen = false;
     const response = await axios.get(`/map/${id}`,);
     const map = response.data?.data;
     if (!map) {

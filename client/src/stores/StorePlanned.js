@@ -14,9 +14,19 @@ export const usePlannedStore = defineStore('plannedData', {
     slidOpen: false,
     slidData: [],
     showPopup: false,
+    imagesPopup: [],
   }),
 
   actions: {
+    addImagePop(image) {
+      if (!this.imagesPopup.includes(image)) {
+        this.imagesPopup.push(image);
+      }
+    },
+    removeImagePop(index) {
+      this.imagesPopup.splice(index, 1);
+    },
+
     addPin(x, y) {
       this.pins.push({ x, y, images: [], name: '' });
       this.pinsData.push({ x, y, images: [], name: '' });

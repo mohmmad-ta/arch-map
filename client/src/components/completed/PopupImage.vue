@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Popup Overlay -->
-    <div v-if="store.showPopup" class="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div v-if="store.showPopup" class="">
       <!-- Draggable/Resizable Image Box -->
       <div
-          class="absolute bg-white rounded-lg overflow-hidden border shadow-lg cursor-move"
+          class="absolute bg-white rounded-lg overflow-hidden border shadow-lg z-50 cursor-move"
           :style="popupStyle"
           @mousedown="startDrag"
       >
@@ -15,7 +15,7 @@
         ><i class="fa-solid fa-up-right-and-down-left-from-center text-sm"></i></div>
         <div
             class="absolute top-0 right-0 backdrop-blur-sm bg-black bg-opacity-20 rounded-tr-lg text-secondary-950 hover:text-red-500 duration-150 rounded-bl-lg w-8 h-8 flex justify-center items-center cursor-se-resize z-50"
-            @click="store.showPopup = false"
+            @click="store.removeImagePop(index)"
         ><i class="fa-solid fa-xmark text-lg"></i></div>
 
         <!-- Image -->
@@ -30,7 +30,8 @@ import {ref, reactive, defineProps, onMounted, computed} from 'vue'
 import { useCompStore } from '@/stores/StoreCompleted.js'
 const store = useCompStore();
 const prop =defineProps({
-  image: String
+  image: String,
+  index: Number,
 });
 const show = ref(false)
 

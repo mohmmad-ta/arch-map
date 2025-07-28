@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref ,defineProps} from 'vue';
 import { useDashStore } from '@/stores/StoreDash'
 const store = useDashStore();
 const prop =defineProps({

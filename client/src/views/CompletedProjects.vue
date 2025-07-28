@@ -58,7 +58,8 @@ function getImagePosition(index, total) {
 const openButton  = ref(-1);
 const imagePop  = ref("");
 const openPop = (img)=>{
-  imagePop.value = img;
+  store.addImagePop(img);
+  console.log(store.imagesPopup)
   store.showPopup = true;
 }
 </script>
@@ -82,14 +83,18 @@ const openPop = (img)=>{
 
     <TransitionGroup>
       <div v-if="store.imageCoverUp" class="mt-2 flex justify-center">
-        <div class="relative">
-          <img ref="imageRef" class="w-[1540px] h-[900px] rounded-md" crossorigin="anonymous" :src="store.imageCoverUp" alt="Map" />
+        <div class="relative mx-24 w-full h-[90%] overflow-hidden inline-block" >
+          <img ref="imageRef" class="w-full h-full rounded-md" crossorigin="anonymous" :src="store.imageCoverUp" alt="Map" />
 
           <div
               v-for="(pin, index) in store.pins"
               :key="index"
               class="absolute border-gray-500 rounded-full"
-              :style="{ left: pin.x - 40 + 'px', top: pin.y -40 + 'px' }"
+              :style="{
+                left: pin.x + '%',
+                top: pin.y + '%',
+                transform: 'translate(-50%, -50%)',
+              }"
           >
             <div class="relative w-20 h-20 mx-auto">
               <!-- Center Button -->
@@ -121,9 +126,11 @@ const openPop = (img)=>{
     <Transition>
       <SideBar />
     </Transition>
-    <Transition>
-      <PopupImage :image="imagePop" />
-    </Transition>
+    <div v-for="(image, index) in store.imagesPopup">
+      <Transition>
+        <PopupImage :index="index" :image="image" />
+      </Transition>
+    </div>
   </main>
 </template>
 

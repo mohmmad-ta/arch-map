@@ -4,6 +4,8 @@ import Dashboard from '../views/Dashboard.vue'
 import CompletedProjects from '../views/CompletedProjects.vue'
 import PlannedProjects from '../views/PlannedProjects.vue'
 import UnfinishedProjects from '../views/UnfinishedProjects.vue'
+import Page3DVideo from '../views/3DVideo.vue'
+import AboutUs from '../views/AboutUs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +30,14 @@ const router = createRouter({
       path: '/UnfinishedProjects',
       name: 'UnfinishedProjects',
       component: UnfinishedProjects,
+    },{
+      path: '/Page3DVideo',
+      name: 'Page3DVideo',
+      component: Page3DVideo,
+    },{
+      path: '/AboutUs',
+      name: 'AboutUs',
+      component: AboutUs,
     }
   ],
 })

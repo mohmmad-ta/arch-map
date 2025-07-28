@@ -8,6 +8,7 @@ import axios from "axios";
 const router = useRouter();
 const getOneMap = async (id) => {
   try {
+    store.slidOpen = false;
     const response = await axios.get(`/map/${id}`);
     const map = response.data?.data;
     if (!map) {
@@ -26,11 +27,15 @@ const getOneMap = async (id) => {
     console.error('Fetching map failed:', error);
   }
 };
+const closeSlid = ()=>{
+  store.slidOpen = false;
+  store.removeData()
+}
 </script>
 
 <template>
   <main :class="store.slidOpen === true ? 'right-0' : 'right-[-20rem]'" class="duration-200 z-50 fixed justify-center w-80 right-0 top-16 h-full bg-white p-5">
-    <div @click="store.removeData()" class="w-full cursor-pointer gap-2 flex overflow-hidden justify-center p-2.5 border border-secondary-100 hover:border-secondary-200 hover:scale-105 duration-150 rounded-md bg-secondary-50 mb-1.5">
+    <div @click="closeSlid()" class="w-full cursor-pointer gap-2 flex overflow-hidden justify-center p-2.5 border border-secondary-100 hover:border-secondary-200 hover:scale-105 duration-150 rounded-md bg-secondary-50 mb-1.5">
       <h1 class="text-secondary-950 text-wrap text-right w-full text-sm">{{$t('dash_sidebar_add')}}</h1>
     </div>
     <div @click="getOneMap(data.id)" v-for="data in store.slidData" class="w-full cursor-pointer gap-2 flex overflow-hidden justify-center p-2.5 border border-secondary-100 hover:border-secondary-200 hover:scale-105 duration-150 rounded-md bg-secondary-50 mb-1.5">

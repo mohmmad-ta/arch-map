@@ -8,6 +8,8 @@ const router = useRouter();
 const store = useCompStore();
 const getOneMap = async (id) => {
   try {
+    store.slidOpen = false;
+    store.imagesPopup = []
     const response = await axios.get(`/map/${id}`,);
     const map = response.data?.data;
     if (!map) {

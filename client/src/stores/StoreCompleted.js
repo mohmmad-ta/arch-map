@@ -14,14 +14,23 @@ export const useCompStore = defineStore('compData', {
     slidOpen: false,
     slidData: [],
     showPopup: false,
+    imagesPopup: [],
   }),
 
   actions: {
+    addImagePop(image) {
+      if (!this.imagesPopup.includes(image)) {
+        this.imagesPopup.push(image);
+      }
+    },
+    removeImagePop(index) {
+      this.imagesPopup.splice(index, 1);
+    },
+
     addPin(x, y) {
       this.pins.push({ x, y, images: [], name: '' });
       this.pinsData.push({ x, y, images: [], name: '' });
     },
-
     removePin(index) {
       this.pins.splice(index, 1);
       this.pinsData.splice(index, 1);
