@@ -125,10 +125,12 @@ const openPop = (img)=>{
     <Transition>
       <SideBar />
     </Transition>
-    <div v-for="(image, index) in store.imagesPopup">
-      <Transition>
-        <PopupImage :index="index" :image="image" />
-      </Transition>
+    <div class="fixed w-screen h-screen top-0 left-0 pointer-events-none">
+      <div v-for="(image, index) in store.imagesPopup">
+        <Transition>
+          <PopupImage class="pointer-events-auto" :index="index" :image="image" />
+        </Transition>
+      </div>
     </div>
   </main>
 </template>

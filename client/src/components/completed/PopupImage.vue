@@ -71,8 +71,8 @@ function startDrag(e) {
 
   document.addEventListener('mousemove', drag)
   document.addEventListener('mouseup', stopAll)
-  document.addEventListener('touchmove', drag)
-  document.addEventListener('touchend', stopAll)
+  document.addEventListener('touchmove', drag, { passive: false })
+  document.addEventListener('touchend', stopAll, { passive: false })
 }
 
 function drag(e) {
@@ -92,8 +92,8 @@ function startResize(e) {
 
   document.addEventListener('mousemove', resize)
   document.addEventListener('mouseup', stopAll)
-  document.addEventListener('touchmove', resize)
-  document.addEventListener('touchend', stopAll)
+  document.addEventListener('touchmove', resize, { passive: false })
+  document.addEventListener('touchend', stopAll, { passive: false })
 }
 
 function resize(e) {
@@ -108,10 +108,10 @@ function stopAll() {
   resizing.value = false
   document.removeEventListener('mousemove', drag)
   document.removeEventListener('mouseup', stopAll)
-  document.removeEventListener('touchmove', drag)
+  document.removeEventListener('touchmove', drag, { passive: false })
   document.removeEventListener('touchend', stopAll)
   document.removeEventListener('mousemove', resize)
-  document.removeEventListener('touchmove', resize)
+  document.removeEventListener('touchmove', resize, { passive: false })
 }
 </script>
 

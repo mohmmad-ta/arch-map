@@ -4,6 +4,7 @@
 
 * {
   font-family: tajawal, sans-serif;
+  overscroll-behavior: none;
 }
 
 header a.router-link-exact-active {
